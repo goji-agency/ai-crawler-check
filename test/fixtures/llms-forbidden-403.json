@@ -1,0 +1,13 @@
+{
+  "name": "llms-forbidden-403",
+  "description": "A 403 is Unknown with the visible note, same as robots.txt",
+  "file": "llms",
+  "response": {
+    "status": 403,
+    "contentType": "text/plain",
+    "body": "Forbidden"
+  },
+  "expected": {
+    "state": "unknown"
+  }
+}

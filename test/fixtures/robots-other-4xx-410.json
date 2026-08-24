@@ -1,0 +1,15 @@
+{
+  "name": "robots-other-4xx-410",
+  "description": "A 4xx other than 401/403/429 is treated like 404: no robots.txt, allowed",
+  "file": "robots",
+  "response": {
+    "status": 410,
+    "contentType": "text/plain",
+    "body": "Gone"
+  },
+  "expected": {
+    "outcome": "missing",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

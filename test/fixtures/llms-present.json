@@ -1,0 +1,13 @@
+{
+  "name": "llms-present",
+  "description": "A 200 text response is Present with contents shown",
+  "file": "llms",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain; charset=utf-8",
+    "body": "# Example Co\n\n> Example Co makes examples.\n\n## Docs\n- [About](https://example.com/about)\n"
+  },
+  "expected": {
+    "state": "present"
+  }
+}

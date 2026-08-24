@@ -1,0 +1,17 @@
+{
+  "name": "robots-malformed",
+  "description": "Garbage lines are skipped without failing; valid groups still apply",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "﻿<<<%%% not a directive\nDisallow: /orphan-rule-before-any-group\nUser-agent: ClaudeBot\nDis@llow /broken\nDisallow: /\nrandom noise line\n:::\nUser-agent GPTBot missing colon\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {
+      "ClaudeBot": "blocked"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "robots-meta-externalagent-lowercase",
+  "description": "meta-externalagent matches regardless of the case used in the file",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: Meta-ExternalAgent\nDisallow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {
+      "meta-externalagent": "blocked"
+    }
+  }
+}

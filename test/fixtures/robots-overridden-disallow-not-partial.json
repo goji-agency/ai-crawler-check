@@ -1,0 +1,15 @@
+{
+  "name": "robots-overridden-disallow-not-partial",
+  "description": "A Disallow fully neutralised by an equal Allow does not make the status partial",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /admin\nAllow: /admin\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

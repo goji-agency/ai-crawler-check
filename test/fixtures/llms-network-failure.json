@@ -1,0 +1,11 @@
+{
+  "name": "llms-network-failure",
+  "description": "A network failure is Unknown with the visible note",
+  "file": "llms",
+  "response": {
+    "networkError": true
+  },
+  "expected": {
+    "state": "unknown"
+  }
+}

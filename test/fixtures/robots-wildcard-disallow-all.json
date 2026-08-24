@@ -1,0 +1,15 @@
+{
+  "name": "robots-wildcard-disallow-all",
+  "description": "User-agent: * with Disallow: / blocks every crawler",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "blocked",
+    "overrides": {}
+  }
+}

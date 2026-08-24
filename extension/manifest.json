@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "AI Crawler Check: robots.txt and llms.txt",
+  "version": "1.0.0",
+  "description": "See which AI crawlers a site allows or blocks. Checks robots.txt and llms.txt for ChatGPT, Claude, Perplexity and Gemini.",
+  "permissions": ["activeTab"],
+  "action": {
+    "default_title": "AI Crawler Check",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "robots-consecutive-ua-lines",
+  "description": "Consecutive User-agent lines share one rule block",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: GPTBot\nUser-agent: ClaudeBot\nUser-agent: PerplexityBot\nDisallow: /\n\nUser-agent: *\nAllow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {
+      "GPTBot": "blocked",
+      "ClaudeBot": "blocked",
+      "PerplexityBot": "blocked"
+    }
+  }
+}

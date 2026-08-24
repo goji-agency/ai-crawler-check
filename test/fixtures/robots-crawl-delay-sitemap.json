@@ -1,0 +1,17 @@
+{
+  "name": "robots-crawl-delay-sitemap",
+  "description": "Crawl-delay, Sitemap, Host and unknown directives are ignored without failing the parse or splitting groups",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nCrawl-delay: 10\nDisallow: /search\nSitemap: https://example.com/sitemap.xml\nHost: example.com\nClean-param: ref /articles/\n\nUser-agent: Bytespider\nCrawl-delay: 30\nDisallow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "partial",
+    "overrides": {
+      "Bytespider": "blocked"
+    }
+  }
+}

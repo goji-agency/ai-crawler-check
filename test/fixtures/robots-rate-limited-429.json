@@ -1,0 +1,15 @@
+{
+  "name": "robots-rate-limited-429",
+  "description": "429 rate limiting is bot protection, treated as Unknown",
+  "file": "robots",
+  "response": {
+    "status": 429,
+    "contentType": "text/plain",
+    "body": "Too Many Requests"
+  },
+  "expected": {
+    "outcome": "unreachable",
+    "defaultStatus": "unknown",
+    "overrides": {}
+  }
+}

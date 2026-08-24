@@ -1,0 +1,15 @@
+{
+  "name": "robots-forbidden-403",
+  "description": "403 is commonly bot protection; treating it as Allowed would be a false pass",
+  "file": "robots",
+  "response": {
+    "status": 403,
+    "contentType": "text/plain",
+    "body": "Forbidden"
+  },
+  "expected": {
+    "outcome": "unreachable",
+    "defaultStatus": "unknown",
+    "overrides": {}
+  }
+}
