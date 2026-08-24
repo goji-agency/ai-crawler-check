@@ -8,7 +8,7 @@ Everything runs in your browser. No account, no tracking, no analytics, nothing 
 
 ## What ships
 
-**The Chrome Web Store package is the [`extension/`](extension/) directory only.** Zip the contents of `extension/` and nothing else. Everything outside it (`test/`, `package.json`, this README, `LICENSE`, `.gitignore`) is development tooling and must not be included in the store zip.
+**The Chrome Web Store package is the [`extension/`](extension/) directory only.** Zip the contents of `extension/` and nothing else. Everything outside it (`test/`, `assets/`, `package.json`, this README, `LICENSE`, `.gitignore`) is development tooling or source assets and must not be included in the store zip.
 
 ```
 extension/          <- the packable extension, self-contained
@@ -17,7 +17,8 @@ extension/          <- the packable extension, self-contained
   popup.css
   popup.js
   parser.js
-  icons/            <- placeholder squares, to be replaced with final artwork
+  icons/            <- GOJI icon at 128, 48 and 16
+assets/             <- icon source (SVG) and variants, never shipped
 test/               <- dev only, never shipped
   parser.test.js
   fixtures/*.json
@@ -35,7 +36,7 @@ Pages the extension cannot check (`chrome://` pages, the new tab page, the Chrom
 
 ## Run the tests
 
-Requires Node 18 or later. No dependencies to install.
+Requires Node 20 or later. No dependencies to install.
 
 ```
 npm test
