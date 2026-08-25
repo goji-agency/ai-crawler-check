@@ -139,6 +139,7 @@ function buildReport(domain, robots, llms) {
 
 function setupCopyButton(domain, robots, llms) {
   const button = $('copy-button');
+  let resetTimer = null;
   button.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(buildReport(domain, robots, llms));
@@ -146,7 +147,8 @@ function setupCopyButton(domain, robots, llms) {
     } catch {
       button.textContent = 'Copy failed';
     }
-    setTimeout(() => {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
       button.textContent = 'Copy report';
     }, 1500);
   });

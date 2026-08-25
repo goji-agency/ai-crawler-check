@@ -41,7 +41,10 @@ export function parseRobotsTxt(text) {
   let current = null;
   let currentHasRules = false;
 
+  // RFC 9309 requires processing at least 500 KiB; cap there so an
+  // absurdly large file cannot stall the popup.
   const lines = String(text ?? '')
+    .slice(0, 512000)
     .replace(/^\uFEFF/, '')
     .split(/\r\n|\r|\n/);
 
@@ -77,7 +80,9 @@ export function parseRobotsTxt(text) {
 
 // A path pattern matches from the start of the URL path. '*' matches any
 // character sequence; a trailing '$' anchors the end. '$' anywhere else is
-// literal.
+// literal. Implemented as a greedy leftmost segment scan rather than a
+// regex: patterns come from the fetched file, and a wildcard-heavy pattern
+// compiled to a backtracking regex can hang the popup.
 export function patternMatches(pattern, path) {
   let body = pattern;
   let anchored = false;
@@ -85,11 +90,23 @@ export function patternMatches(pattern, path) {
     anchored = true;
     body = body.slice(0, -1);
   }
-  const source = body
-    .split('*')
-    .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('.*');
-  return new RegExp('^' + source + (anchored ? '$' : '')).test(path);
+  const segments = body.split('*');
+
+  const first = segments[0];
+  if (!path.startsWith(first)) return false;
+  if (segments.length === 1) return anchored ? path === first : true;
+
+  let pos = first.length;
+  const last = segments[segments.length - 1];
+  for (let i = 1; i < segments.length - 1; i++) {
+    const found = path.indexOf(segments[i], pos);
+    if (found === -1) return false;
+    pos = found + segments[i].length;
+  }
+  if (anchored) {
+    return path.length - last.length >= pos && path.endsWith(last);
+  }
+  return path.indexOf(last, pos) !== -1;
 }
 
 // Longest pattern wins between Allow and Disallow; on equal length Allow
@@ -162,8 +179,11 @@ export function statusForBot(groups, botName) {
 // when the header is absent or lying.
 export function looksLikeHtml(contentType, body) {
   if ((contentType || '').toLowerCase().includes('text/html')) return true;
-  const head = String(body ?? '').replace(/^\uFEFF/, '').trimStart().slice(0, 15).toLowerCase();
-  return head.startsWith('<!doctype html') || head.startsWith('<html');
+  // No valid robots.txt directive starts with a markup tag; a body opening
+  // with one (<!DOCTYPE, <html, <?xml, a leading comment) is a soft 404
+  // whatever the header says.
+  const head = String(body ?? '').replace(/^\uFEFF/, '').trimStart();
+  return /^<[a-z!?/]/i.test(head);
 }
 
 // Classify a fetch result for either file.

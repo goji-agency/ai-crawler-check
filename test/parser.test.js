@@ -23,7 +23,15 @@ const fixtures = readdirSync(fixturesDir)
 
 describe('crawler list', () => {
   test('covers all 16 crawlers from the spec in order', () => {
-    assert.equal(ALL_BOTS.length, 16);
+    assert.deepEqual(ALL_BOTS, [
+      'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
+      'ClaudeBot', 'Claude-User', 'Claude-SearchBot',
+      'PerplexityBot', 'Perplexity-User',
+      'Googlebot', 'Google-Extended',
+      'Applebot', 'Applebot-Extended',
+      'meta-externalagent',
+      'CCBot', 'Bytespider', 'Amazonbot',
+    ]);
     assert.deepEqual(
       CRAWLER_GROUPS.map((g) => g.group),
       ['OpenAI', 'Anthropic', 'Perplexity', 'Google', 'Apple', 'Meta', 'Other'],
@@ -34,6 +42,9 @@ describe('crawler list', () => {
 describe('robots.txt fixtures', () => {
   for (const fixture of fixtures.filter((f) => f.file === 'robots')) {
     test(`${fixture.name}: ${fixture.description}`, () => {
+      for (const key of Object.keys(fixture.expected.overrides)) {
+        assert.ok(ALL_BOTS.includes(key), `fixture override names unknown bot ${key}`);
+      }
       const result = analyzeRobots(fixture.response);
       assert.equal(result.outcome, fixture.expected.outcome, 'outcome');
       for (const bot of ALL_BOTS) {
@@ -49,6 +60,12 @@ describe('robots.txt fixtures', () => {
     assert.equal(analyzeRobots({ status: 429, contentType: '', body: '' }).reason, 'http-429');
     assert.equal(analyzeRobots({ status: 503, contentType: '', body: '' }).reason, 'http-5xx');
     assert.equal(analyzeRobots({ networkError: true }).reason, 'network');
+  });
+
+  test('llms unknown states carry the same reason for the visible note', () => {
+    assert.equal(analyzeLlms({ status: 403, contentType: '', body: '' }).reason, 'http-403');
+    assert.equal(analyzeLlms({ status: 503, contentType: '', body: '' }).reason, 'http-5xx');
+    assert.equal(analyzeLlms({ networkError: true }).reason, 'network');
   });
 });
 
@@ -95,6 +112,14 @@ describe('pattern matching', () => {
     assert.equal(patternMatches('/a.b', '/axb'), false);
     assert.equal(patternMatches('/a+b(c)', '/a+b(c)/d'), true);
   });
+
+  test('wildcard-heavy patterns cannot blow up matching time', () => {
+    const pattern = '/' + 'a*'.repeat(40) + 'b$';
+    const path = '/' + 'a'.repeat(5000) + 'c';
+    const started = performance.now();
+    assert.equal(patternMatches(pattern, path), false);
+    assert.ok(performance.now() - started < 200, 'matching must stay linear');
+  });
 });
 
 describe('rule precedence', () => {
@@ -107,13 +132,10 @@ describe('rule precedence', () => {
     assert.equal(decide(rules, '/shop/public/item'), true);
   });
 
-  test('equal length goes to allow', () => {
-    const rules = [
-      { type: 'disallow', path: '/x' },
-      { type: 'allow', path: '/y' },
-    ];
+  test('equal length goes to allow in either rule order', () => {
     assert.equal(decide([{ type: 'disallow', path: '/' }, { type: 'allow', path: '/' }], '/'), true);
-    assert.equal(decide(rules, '/x'), false);
+    assert.equal(decide([{ type: 'allow', path: '/x' }, { type: 'disallow', path: '/x' }], '/x'), true);
+    assert.equal(decide([{ type: 'disallow', path: '/x' }, { type: 'allow', path: '/x' }], '/x'), true);
   });
 
   test('no matching rule means allowed', () => {
@@ -124,13 +146,14 @@ describe('rule precedence', () => {
 
 describe('group resolution', () => {
   const groups = parseRobotsTxt(
-    'User-agent: *\nDisallow: /all\n\nUser-agent: GPTBot\nDisallow: /gpt\n',
+    'User-agent: *\nDisallow: /*\n\nUser-agent: GPTBot\nDisallow: /gpt\n',
   );
 
   test('a named group replaces the * group', () => {
-    // GPTBot must not inherit /all from *: only /gpt applies, root allowed.
+    // Merging instead of replacing would give GPTBot the * group's
+    // root-blocking Disallow: /* and turn partial into blocked.
     assert.equal(statusForBot(groups, 'GPTBot'), 'partial');
-    assert.equal(statusForBot(groups, 'ClaudeBot'), 'partial');
+    assert.equal(statusForBot(groups, 'ClaudeBot'), 'blocked');
   });
 
   test('a bot with no applicable group at all is allowed', () => {
@@ -154,6 +177,17 @@ describe('html detection', () => {
   test('body sniff catches soft 404s with lying or missing headers', () => {
     assert.equal(looksLikeHtml('', '  <!DOCTYPE html><html>'), true);
     assert.equal(looksLikeHtml('text/plain', '<html><body>404'), true);
+    assert.equal(looksLikeHtml('text/plain', '<?xml version="1.0"?><html xmlns='), true);
+    assert.equal(looksLikeHtml('text/plain', '<!-- error page -->\n<html>'), true);
     assert.equal(looksLikeHtml('', 'User-agent: *\nDisallow: /'), false);
+    assert.equal(looksLikeHtml('', '<<<%%% merge conflict junk\nUser-agent: *'), false);
+  });
+});
+
+describe('oversized input', () => {
+  test('parsing is capped at 500 KiB without losing early groups', () => {
+    const text = 'User-agent: GPTBot\nDisallow: /\n' + '# filler\n'.repeat(80000);
+    const groups = parseRobotsTxt(text);
+    assert.equal(statusForBot(groups, 'GPTBot'), 'blocked');
   });
 });

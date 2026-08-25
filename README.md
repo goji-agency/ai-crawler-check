@@ -32,7 +32,7 @@ package.json        <- dev only, test script, zero dependencies
 3. Click **Load unpacked** and select the `extension/` directory.
 4. Pin the extension and click its icon on any http or https page.
 
-Pages the extension cannot check (`chrome://` pages, the new tab page, the Chrome Web Store, `file://` URLs, other extensions' pages) show "Cannot check this page".
+Pages that are not http or https (`chrome://` pages, the new tab page, `file://` URLs, other extensions' pages) show "Cannot check this page".
 
 ## Run the tests
 
