@@ -1,0 +1,17 @@
+{
+  "name": "robots-named-group-override",
+  "description": "A named group replaces the * group entirely, it does not merge (merging would let Disallow: /* block GPTBot at root)",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /*\n\nUser-agent: GPTBot\nAllow: /\nDisallow: /private/\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "blocked",
+    "overrides": {
+      "GPTBot": "partial"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "llms-server-error",
+  "description": "A 5xx is Unknown with the visible note",
+  "file": "llms",
+  "response": {
+    "status": 503,
+    "contentType": "text/plain",
+    "body": "Service Unavailable"
+  },
+  "expected": {
+    "state": "unknown"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "robots-html-sniff-no-header",
+  "description": "An HTML body with a generic or missing content-type is still a soft 404",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "",
+    "body": "\n  <!doctype HTML><html><body>404</body></html>"
+  },
+  "expected": {
+    "outcome": "missing",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

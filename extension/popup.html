@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Crawler Check</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>AI Crawler Check</h1>
+    <p id="domain" class="domain" hidden></p>
+  </header>
+
+  <main>
+    <p id="message" class="message" hidden></p>
+    <div id="note" class="note" hidden></div>
+
+    <section id="results" hidden>
+      <table id="results-table" aria-label="AI crawler access status">
+        <tbody id="results-body"></tbody>
+      </table>
+    </section>
+
+    <section id="llms-section" hidden>
+      <h2>llms.txt</h2>
+      <p id="llms-status"></p>
+      <pre id="llms-body" tabindex="0" hidden></pre>
+    </section>
+
+    <button id="copy-button" type="button" hidden>Copy report</button>
+  </main>
+
+  <footer>
+    <a href="https://goji.agency/tools/ai-crawler-check" target="_blank" rel="noopener">Built by GOJI</a>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

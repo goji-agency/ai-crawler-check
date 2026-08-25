@@ -1,0 +1,15 @@
+{
+  "name": "robots-unauthorized-401",
+  "description": "401 is treated like 403: Unknown, not Allowed",
+  "file": "robots",
+  "response": {
+    "status": 401,
+    "contentType": "text/plain",
+    "body": "Unauthorized"
+  },
+  "expected": {
+    "outcome": "unreachable",
+    "defaultStatus": "unknown",
+    "overrides": {}
+  }
+}

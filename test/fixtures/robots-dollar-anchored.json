@@ -1,0 +1,17 @@
+{
+  "name": "robots-dollar-anchored",
+  "description": "Disallow: /*.pdf$ blocks only pdf paths; root stays allowed so status is partial. Disallow: /$ blocks exactly the root for GPTBot",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /*.pdf$\n\nUser-agent: GPTBot\nDisallow: /$\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "partial",
+    "overrides": {
+      "GPTBot": "blocked"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "robots-crlf-and-comments",
+  "description": "CRLF line endings, comments and BOM are handled",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "﻿# blocking AI bots\r\nUser-agent: GPTBot # trailing comment\r\nDisallow: / \r\n\r\nUser-agent: *\r\nDisallow:\r\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {
+      "GPTBot": "blocked"
+    }
+  }
+}

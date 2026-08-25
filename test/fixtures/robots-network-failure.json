@@ -1,0 +1,13 @@
+{
+  "name": "robots-network-failure",
+  "description": "A network failure (including a cross-origin redirect) means Unknown for all",
+  "file": "robots",
+  "response": {
+    "networkError": true
+  },
+  "expected": {
+    "outcome": "unreachable",
+    "defaultStatus": "unknown",
+    "overrides": {}
+  }
+}

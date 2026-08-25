@@ -1,0 +1,15 @@
+{
+  "name": "robots-server-error-500",
+  "description": "5xx means Unknown for all with a visible note",
+  "file": "robots",
+  "response": {
+    "status": 500,
+    "contentType": "text/html",
+    "body": "Internal Server Error"
+  },
+  "expected": {
+    "outcome": "unreachable",
+    "defaultStatus": "unknown",
+    "overrides": {}
+  }
+}

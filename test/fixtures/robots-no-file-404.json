@@ -1,0 +1,15 @@
+{
+  "name": "robots-no-file-404",
+  "description": "No robots.txt (404) means allowed for all",
+  "file": "robots",
+  "response": {
+    "status": 404,
+    "contentType": "text/html",
+    "body": "<html><body>Not Found</body></html>"
+  },
+  "expected": {
+    "outcome": "missing",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

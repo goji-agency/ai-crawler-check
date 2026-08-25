@@ -1,0 +1,15 @@
+{
+  "name": "robots-wildcard-disallow-star",
+  "description": "Disallow: /* matches the root and blocks everything",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /*\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "blocked",
+    "overrides": {}
+  }
+}

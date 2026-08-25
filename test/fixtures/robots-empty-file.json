@@ -1,0 +1,15 @@
+{
+  "name": "robots-empty-file",
+  "description": "An empty 200 robots.txt allows everything",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": ""
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

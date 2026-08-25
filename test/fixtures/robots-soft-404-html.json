@@ -1,0 +1,15 @@
+{
+  "name": "robots-soft-404-html",
+  "description": "200 with an HTML content-type is a soft 404, treated as no robots.txt",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "body": "<!DOCTYPE html><html><head><title>Page not found</title></head><body>404</body></html>"
+  },
+  "expected": {
+    "outcome": "missing",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

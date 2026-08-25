@@ -1,0 +1,9 @@
+{
+  "name": "ai-crawler-check-dev",
+  "private": true,
+  "description": "Development tooling for the AI Crawler Check extension. Not part of the extension package; only the extension/ directory ships.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

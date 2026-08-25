@@ -1,0 +1,13 @@
+{
+  "name": "llms-not-found-404",
+  "description": "A 404 is Not found",
+  "file": "llms",
+  "response": {
+    "status": 404,
+    "contentType": "text/html",
+    "body": "<html>404</html>"
+  },
+  "expected": {
+    "state": "not_found"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "robots-only-root-allowed",
+  "description": "The classic allow-homepage-only pattern (Allow: /$ + Disallow: /) is Partly blocked, not Allowed",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nAllow: /$\nDisallow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "partial",
+    "overrides": {}
+  }
+}

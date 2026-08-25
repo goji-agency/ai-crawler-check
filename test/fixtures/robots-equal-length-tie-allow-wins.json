@@ -1,0 +1,15 @@
+{
+  "name": "robots-equal-length-tie-allow-wins",
+  "description": "On equal pattern length Allow wins over Disallow",
+  "file": "robots",
+  "response": {
+    "status": 200,
+    "contentType": "text/plain",
+    "body": "User-agent: *\nDisallow: /\nAllow: /\n"
+  },
+  "expected": {
+    "outcome": "parsed",
+    "defaultStatus": "allowed",
+    "overrides": {}
+  }
+}

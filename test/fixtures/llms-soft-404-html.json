@@ -1,0 +1,13 @@
+{
+  "name": "llms-soft-404-html",
+  "description": "A 200 HTML page at /llms.txt is a soft 404, Not found",
+  "file": "llms",
+  "response": {
+    "status": 200,
+    "contentType": "text/html",
+    "body": "<html><body>Home</body></html>"
+  },
+  "expected": {
+    "state": "not_found"
+  }
+}
